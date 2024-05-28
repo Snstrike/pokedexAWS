@@ -4,17 +4,19 @@ $username = "admin";
 $password = "password";
 $dbname = "pokedex";
 
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-if ($mysqli->connect_error) {
-    die(json_encode(["error" => 'Error de conexión: ' . $mysqli->connect_error]));
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
 $query = 'SELECT id, name, no, image FROM pokemon ORDER BY no';
-$result = $mysqli->query($query);
+$result = $conn->query($query);
 
-if (!$result) {
-    echo json_encode(["error" => "Error en la consulta: " . $mysqli->error]);
-    exit();
+if ($result === false) {
+    die("Error en la consulta: " . $conn->error);
 }
 
 $pokemonList = [];
@@ -24,5 +26,5 @@ while ($row = $result->fetch_assoc()) {
 
 echo json_encode($pokemonList);
 
-$mysqli->close();
+$conn->close();
 ?>
