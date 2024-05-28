@@ -5,14 +5,14 @@ $password = "password";
 $dbname = "pokedex";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-if ($mysqli->connect_error) {
-    die('Error de conexión: ' . $mysqli->connect_error);
+if ($conn->connect_error) {
+    die('Error de conexión: ' . $conn->connect_error);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
 
-    $stmt = $mysqli->prepare("DELETE FROM pokemon WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM pokemon WHERE id = ?");
     $stmt->bind_param('i', $id);
 
     if ($stmt->execute()) {
@@ -24,5 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 
-$mysqli->close();
+$conn->close();
 ?>
+
