@@ -5,23 +5,26 @@ $password = "password";
 $dbname = "pokedex";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-// Verificar conexión
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die('Error de conexión: ' . $conn->connect_error);
 }
 
-$id = intval($_GET['id']);
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $id = $_GET['id'];
 
-$sql = "SELECT * FROM pokemon WHERE id = $id";
-$result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM pokemon WHERE id = ?");
+    $stmt->bind_param('i', $id);
 
-$pokemonInfo = null;
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        $pokemon = $result->fetch_assoc();
+        echo json_encode($pokemon);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+    }
 
-if ($result->num_rows > 0) {
-    $pokemonInfo = $result->fetch_assoc();
+    $stmt->close();
 }
-
-echo json_encode($pokemonInfo);
 
 $conn->close();
 ?>
