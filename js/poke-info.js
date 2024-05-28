@@ -1,12 +1,12 @@
-function loadPokemonInfo(id) {
-    fetch(`get_pokemon_info.php?id=${id}`)
+function loadPokemonInfo(no) {
+    fetch(`get_pokemon_info.php?no=${no}`)
         .then(response => response.json())
         .then(data => {
             const pokeInfoElement = document.getElementById('poke-info');
             pokeInfoElement.innerHTML = `
                 <h2>${data.name}</h2>
                 <img src="${data.image}" alt="${data.name}">
-                <p>Tipo: ${data.type} ${data.type2 !== '(None)' ? '/' + data.type2 : ''}</p>
+                <p>Tipo: ${data.type} ${data.type2 ? '/' + data.type2 : ''}</p>
                 <p>Altura: ${data.height} cm</p>
                 <p>Peso: ${data.weight} kg</p>
                 <p>HP: ${data.hp}</p>
@@ -24,19 +24,19 @@ function loadPokemonInfo(id) {
             });
 
             document.getElementById('deletePokemon').addEventListener('click', () => {
-                deletePokemon(data.id);
+                deletePokemon(data.no);
             });
         });
 }
 
-function deletePokemon(id) {
+function deletePokemon(no) {
     if (confirm('¿Estás seguro de que quieres eliminar este Pokémon?')) {
         fetch('delete_pokemon.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: `id=${id}`
+            body: `no=${no}`
         })
         .then(response => response.json())
         .then(data => {
@@ -56,7 +56,7 @@ function openEditForm(data) {
     pokeInfoElement.innerHTML = `
         <h2>Editar Pokémon</h2>
         <form id="editForm">
-            <input type="hidden" name="id" value="${data.id}">
+            <input type="hidden" name="no" value="${data.no}">
             <label for="name">Nombre:</label>
             <input type="text" id="name" name="name" value="${data.name}" required>
             
