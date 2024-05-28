@@ -2,7 +2,7 @@
 $servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
 $username = "admin";
 $password = "password";
-$dbname = "pokedex";
+$dbname = "pokedex-db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -22,7 +22,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 // Seleccionar base de datos
-$conn->select_db('pokedex');
+$conn->select_db('pokedex-db');
 
 // Crear tabla
 $sql = "CREATE TABLE pokemon (
