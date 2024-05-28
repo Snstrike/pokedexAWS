@@ -5,8 +5,8 @@ $password = "password";
 $dbname = "pokedex";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-if ($mysqli->connect_error) {
-    die('Error de conexión: ' . $mysqli->connect_error);
+if ($conn->connect_error) {
+    die('Error de conexión: ' . $conn->connect_error);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $spdefense = $_POST['spdefense'];
     $speed = $_POST['speed'];
 
-    $stmt = $mysqli->prepare("UPDATE pokemon SET name = ?, type = ?, type2 = ?, height = ?, weight = ?, hp = ?, attack = ?, defense = ?, spattack = ?, spdefense = ?, speed = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE pokemon SET name = ?, type = ?, type2 = ?, height = ?, weight = ?, hp = ?, attack = ?, defense = ?, spattack = ?, spdefense = ?, speed = ? WHERE id = ?");
     $stmt->bind_param('sssiiiiiiiii', $name, $type, $type2, $height, $weight, $hp, $attack, $defense, $spattack, $spdefense, $speed, $id);
 
     if ($stmt->execute()) {
@@ -35,5 +35,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 }
 
-$mysqli->close();
+$conn->close();
 ?>
