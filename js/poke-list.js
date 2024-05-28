@@ -1,19 +1,8 @@
 function loadPokemonList() {
     fetch('get_pokemon_list.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error HTTP! status: ${response.status}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            if (data.error) {
-                throw new Error(data.error);
-            }
             displayPokemonList(data);
-        })
-        .catch(error => {
-            console.error('Error al obtener la lista de Pokémon:', error);
         });
 }
 
@@ -28,32 +17,10 @@ function displayPokemonList(pokemonList) {
             <span>${pokemon.name}</span>
         `;
         pokemonItem.addEventListener('click', () => {
-            loadPokemonInfo(pokemon.id);
+            loadPokemonInfo(pokemon.no);
         });
         pokeListElement.appendChild(pokemonItem);
     });
-}
-
-function searchPokemon(query) {
-    fetch('get_pokemon_list.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error HTTP! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            const filteredPokemon = data.filter(pokemon => 
-                pokemon.name.toLowerCase().includes(query.toLowerCase())
-            );
-            displayPokemonList(filteredPokemon);
-        })
-        .catch(error => {
-            console.error('Error al buscar Pokémon:', error);
-        });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -69,4 +36,3 @@ document.addEventListener('DOMContentLoaded', function() {
         openAddForm();
     });
 });
-
