@@ -2,46 +2,49 @@
 $servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
 $username = "admin";
 $password = "password";
-$dbname = "pokedex";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
+// Crear conexión
+$conn = new mysqli($servername, $username, $password);
+
+// Verificar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected successfully";
 
-// Crear base de datos
-$sql = "CREATE DATABASE pokedex";
+// Crear la base de datos
+$sql = "CREATE DATABASE IF NOT EXISTS pokedex";
 if ($conn->query($sql) === TRUE) {
-    echo "Database created successfully";
+    echo "Database created successfully<br>";
 } else {
-    echo "Error creating database: " . $conn->error;
+    echo "Error creating database: " . $conn->error . "<br>";
 }
 
-// Seleccionar base de datos
-$conn->select_db('pokedex-db');
+// Seleccionar la base de datos
+$conn->select_db("pokedex");
 
-// Crear tabla
-$sql = "CREATE TABLE pokemon (
-    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    type VARCHAR(50) NOT NULL,
-    type2 VARCHAR(50) DEFAULT '(None)',
-    height INT NOT NULL,
-    weight INT NOT NULL,
-    hp INT NOT NULL,
-    attack INT NOT NULL,
-    defense INT NOT NULL,
-    speed INT NOT NULL,
-    image VARCHAR(255) DEFAULT 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png'
+// Crear la tabla si no existe
+$sql = "CREATE TABLE IF NOT EXISTS pokemon (
+    no INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    type VARCHAR(30) NOT NULL,
+    type2 VARCHAR(30),
+    height INT(6),
+    weight INT(6),
+    hp INT(6),
+    attack INT(6),
+    defense INT(6),
+    spattack INT(6),
+    spdefense INT(6),
+    speed INT(6),
+    image VARCHAR(255)
 )";
 
 if ($conn->query($sql) === TRUE) {
-    echo "Table pokemon created successfully";
+    echo "Table pokemon created successfully<br>";
 } else {
-    echo "Error creating table: " . $conn->error;
+    echo "Error creating table: " . $conn->error . "<br>";
 }
 
 $conn->close();
 ?>
+
