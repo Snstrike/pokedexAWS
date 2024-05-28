@@ -1,8 +1,20 @@
 function loadPokemonList() {
     fetch('get_pokemon_list.php')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error HTTP! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            displayPokemonList(data);
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                displayPokemonList(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener la lista de Pokémon:', error);
         });
 }
 
@@ -23,15 +35,26 @@ function displayPokemonList(pokemonList) {
     });
 }
 
-
 function searchPokemon(query) {
     fetch('get_pokemon_list.php')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error HTTP! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            const filteredPokemon = data.filter(pokemon => 
-                pokemon.name.toLowerCase().includes(query.toLowerCase())
-            );
-            displayPokemonList(filteredPokemon);
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                const filteredPokemon = data.filter(pokemon => 
+                    pokemon.name.toLowerCase().includes(query.toLowerCase())
+                );
+                displayPokemonList(filteredPokemon);
+            }
+        })
+        .catch(error => {
+            console.error('Error al buscar Pokémon:', error);
         });
 }
 
