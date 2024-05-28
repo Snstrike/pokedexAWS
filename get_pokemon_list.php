@@ -16,7 +16,7 @@ if ($conn->connect_error) {
     exit();
 }
 
-$query = 'SELECT id, name, no, image FROM pokemon ORDER BY no';
+$query = 'SELECT no, name, image FROM pokemon ORDER BY no';
 $result = $conn->query($query);
 
 if ($result === false) {
@@ -34,3 +34,4 @@ echo json_encode($pokemonList);
 
 $conn->close();
 ?>
+
