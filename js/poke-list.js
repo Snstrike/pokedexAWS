@@ -8,10 +8,9 @@ function loadPokemonList() {
         })
         .then(data => {
             if (data.error) {
-                console.error(data.error);
-            } else {
-                displayPokemonList(data);
+                throw new Error(data.error);
             }
+            displayPokemonList(data);
         })
         .catch(error => {
             console.error('Error al obtener la lista de Pokémon:', error);
@@ -45,13 +44,12 @@ function searchPokemon(query) {
         })
         .then(data => {
             if (data.error) {
-                console.error(data.error);
-            } else {
-                const filteredPokemon = data.filter(pokemon => 
-                    pokemon.name.toLowerCase().includes(query.toLowerCase())
-                );
-                displayPokemonList(filteredPokemon);
+                throw new Error(data.error);
             }
+            const filteredPokemon = data.filter(pokemon => 
+                pokemon.name.toLowerCase().includes(query.toLowerCase())
+            );
+            displayPokemonList(filteredPokemon);
         })
         .catch(error => {
             console.error('Error al buscar Pokémon:', error);
@@ -71,3 +69,4 @@ document.addEventListener('DOMContentLoaded', function() {
         openAddForm();
     });
 });
+
