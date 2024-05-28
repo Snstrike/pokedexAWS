@@ -4,7 +4,7 @@
 DB_HOST="<endpoint-RDS>"
 DB_NAME="pokedex"
 DB_USER="admin"
-DB_PASS="yourpassword"
+DB_PASS="password"
 
 # Actualizar paquetes e instalar dependencias
 sudo apt update
