@@ -1,4 +1,7 @@
 <?php
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
 $servername = "pokedex-db.cb0cik6msgrb.us-east-1.rds.amazonaws.com";
 $username = "admin";
 $password = "password";
@@ -6,14 +9,14 @@ $dbname = "pokedex";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die('Error de conexión: ' . $conn->connect_error);
+    die(json_encode(['status' => 'error', 'message' => 'Error de conexión: ' . $conn->connect_error]));
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'];
+    $no = $_POST['no'];
 
-    $stmt = $conn->prepare("DELETE FROM pokemon WHERE id = ?");
-    $stmt->bind_param('i', $id);
+    $stmt = $conn->prepare("DELETE FROM pokemon WHERE no = ?");
+    $stmt->bind_param('i', $no);
 
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success']);
