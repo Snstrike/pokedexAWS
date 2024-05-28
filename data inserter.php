@@ -1,5 +1,17 @@
 <?php
 
+// Conexión MySQLi
+$servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
+$username = "admin";
+$password = "password";
+$dbname = "pokedex";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
+}
+
 $pokemonCounter = 1;
 
 while ($pokemonCounter <= 150) {
@@ -34,19 +46,7 @@ while ($pokemonCounter <= 150) {
     $pokemonHeight = isset($pokeConvert['height']) ? $pokeConvert['height'] * 10 : 0; // Convertir de decímetros a centímetros
     $pokemonImage = $pokeConvert['sprites']['other']['official-artwork']['front_default'];
 
-    // Conexión MySQLi
-$servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
-$username = "admin";
-$password = "password";
-$dbname = "pokedex";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($mysqli->connect_error) {
-        die("Error de conexión: " . $mysqli->connect_error);
-    }
-
-    $stmt = $mysqli->prepare("INSERT INTO pokemon (no, name, type, type2, height, weight, hp, attack, defense, spattack, spdefense, speed, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO pokemon (no, name, type, type2, height, weight, hp, attack, defense, spattack, spdefense, speed, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param('isssiiiiiiiss', 
         $pokemonCounter, 
         $pokemonName, 
@@ -70,9 +70,9 @@ $conn = new mysqli($servername, $username, $password, $dbname);
     }
 
     $stmt->close();
-    $mysqli->close();
-
     $pokemonCounter++;
 }
+
+$conn->close();
 
 ?>
