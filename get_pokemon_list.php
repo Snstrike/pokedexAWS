@@ -1,64 +1,27 @@
-function loadPokemonList() {
-    fetch('get_pokemon_list.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.error) {
-                console.error('Error from server:', data.error);
-                return;
-            }
-            displayPokemonList(data);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
+<?php
+$servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
+$username = "admin";
+$password = "password";
+$dbname = "pokedex";
+
+$mysqli = new mysqli($servername, $username, $password, $dbname);
+if ($mysqli->connect_error) {
+    die('Error de conexión: ' . $mysqli->connect_error);
 }
 
-function displayPokemonList(pokemonList) {
-    const pokeListElement = document.getElementById('poke-list');
-    pokeListElement.innerHTML = '';
-    pokemonList.forEach(pokemon => {
-        const pokemonItem = document.createElement('div');
-        pokemonItem.classList.add('pokemon-item');
-        pokemonItem.innerHTML = `
-            <img src="${pokemon.image}" alt="${pokemon.name}">
-            <span>${pokemon.name}</span>
-        `;
-        pokemonItem.addEventListener('click', () => {
-            loadPokemonInfo(pokemon.id);
-        });
-        pokeListElement.appendChild(pokemonItem);
-    });
+$result = $mysqli->query('SELECT id, name, no, image FROM pokemon ORDER BY no');
+
+if (!$result) {
+    echo json_encode(["error" => "Error en la consulta: " . $mysqli->error]);
+    exit();
 }
 
-function searchPokemon(query) {
-    fetch('get_pokemon_list.php')
-        .then(response => response.json())
-        .then(data => {
-            const filteredPokemon = data.filter(pokemon => 
-                pokemon.name.toLowerCase().includes(query.toLowerCase())
-            );
-            displayPokemonList(filteredPokemon);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
+$pokemonList = [];
+while ($row = $result->fetch_assoc()) {
+    $pokemonList[] = $row;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadPokemonList();
+echo json_encode($pokemonList);
 
-    const searchInput = document.getElementById('search');
-    searchInput.addEventListener('input', function() {
-        searchPokemon(searchInput.value);
-    });
-
-    const addPokemonButton = document.getElementById('addPokemon');
-    addPokemonButton.addEventListener('click', function() {
-        openAddForm();
-    });
-});
+$mysqli->close();
+?>
