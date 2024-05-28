@@ -6,10 +6,11 @@ $dbname = "pokedex";
 
 $mysqli = new mysqli($servername, $username, $password, $dbname);
 if ($mysqli->connect_error) {
-    die('Error de conexión: ' . $mysqli->connect_error);
+    die(json_encode(["error" => 'Error de conexión: ' . $mysqli->connect_error]));
 }
 
-$result = $mysqli->query('SELECT id, name, no, image FROM pokemon ORDER BY no');
+$query = 'SELECT id, name, no, image FROM pokemon ORDER BY no';
+$result = $mysqli->query($query);
 
 if (!$result) {
     echo json_encode(["error" => "Error en la consulta: " . $mysqli->error]);
