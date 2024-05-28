@@ -20,7 +20,8 @@ $result = $conn->query($sql);
 // Verificar resultado
 if (!$result) {
     error_log("Error en la consulta: " . $conn->error);
-    die('Error en la consulta: ' . $conn->error);
+    echo json_encode(['error' => "Error en la consulta: " . $conn->error]);
+    die();
 }
 
 // Procesar resultado
@@ -30,6 +31,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Devolver resultado en formato JSON
+header('Content-Type: application/json');
 echo json_encode($pokemonList);
 
 // Cerrar conexión
