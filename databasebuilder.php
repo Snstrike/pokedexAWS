@@ -1,8 +1,8 @@
 <?php
-$servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
+$servername = "pokedex_server";
 $username = "admin";
 $password = "password";
-$dbname = "pokedex-db";
+$dbname = "pokedex";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
