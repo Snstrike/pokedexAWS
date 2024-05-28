@@ -35,7 +35,12 @@ while ($pokemonCounter <= 150) {
     $pokemonImage = $pokeConvert['sprites']['other']['official-artwork']['front_default'];
 
     // Conexión MySQLi
-    $mysqli = new mysqli('pokedex-server', 'admin','password', 'pokedex');
+$servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
+$username = "admin";
+$password = "password";
+$dbname = "pokedex";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
 
     if ($mysqli->connect_error) {
         die("Error de conexión: " . $mysqli->connect_error);
