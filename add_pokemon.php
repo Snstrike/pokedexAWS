@@ -1,7 +1,11 @@
 <?php
-new mysqli('pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com', 'admin','password', 'pokedex');
+$servername = "pokedex_server";
+$username = "admin";
+$password = "password";
+$dbname = "pokedex";
 
-
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 // Verificar conexión
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
