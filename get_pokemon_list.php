@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli('localhost', 'root', '', 'pokedex');
+new mysqli('pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com', 'admin','password', 'pokedex-db');
 
 if ($mysqli->connect_error) {
     die('Error de conexión: ' . $mysqli->connect_error);
