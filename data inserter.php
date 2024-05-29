@@ -1,7 +1,7 @@
 <?php
 
 // Conexión MySQLi
-$servername = "pokedex-db.cb0cik6msgrb.us-east-1.rds.amazonaws.com";
+$servername = "pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com";
 $username = "admin";
 $password = "password";
 $dbname = "pokedex";
