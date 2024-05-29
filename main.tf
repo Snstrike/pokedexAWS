@@ -43,6 +43,7 @@ resource "aws_instance" "pokedex_server" {
     Name = "PokedexServer"
   }
 
+#Not optimized
   user_data = <<-EOF
               #!/bin/bash
               apt-get update
