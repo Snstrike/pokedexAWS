@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables de configuración
-DB_HOST="pokedex-db.cb0cik6msgrb.us-east-1.rds.amazonaws.com"
+DB_HOST="pokedex-db.chn9qxfrvjsc.us-east-1.rds.amazonaws.com"
 DB_NAME="pokedex"
 DB_USER="admin"
 DB_PASS="password"
